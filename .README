@@ -1,0 +1,13 @@
+Running the Code
+
+# Install Dependencies
+npm install
+
+# Start JSON Server from a command line
+json-server --watch db.json
+
+## In-case JSON Server is no installed, install it globally using
+npm install -g json-server
+
+# Start Angular App from another command line
+ng serve
