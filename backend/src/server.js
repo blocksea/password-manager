@@ -44,7 +44,7 @@ app.route("/passwords").get(async (req, res) => {
 app.route("/password-edit/:id").get(async (req, res) => {
     const id = req.params.id;
     const result = await dbConnection.collection(collectionName)
-                                        .findOne(ObjectId(id));
+                                        .findOne({_id: new ObjectId(id)});
   
     if (!result) {
       res.status(404).json({error: "Could not find"});
@@ -54,7 +54,7 @@ app.route("/password-edit/:id").get(async (req, res) => {
     res.json(result);
 });
 
-// Create a new person
+// Create a new password
 app.route("/passwords-edit").post(async (req, res) => {
     const doc = req.body;
     const result = await dbConnection.collection(collectionName)
@@ -62,12 +62,16 @@ app.route("/passwords-edit").post(async (req, res) => {
     res.status(201).json({ _id: result.insertedId });
   });
 
-// Update a person
+// Update a password
 app.route("/passwords-edit/:id").put(async (req, res) => {
     const id = req.params.id;
     const doc = req.body;
+
+    // make sure the id field is correct object type
+    doc._id = new ObjectId(id);
+
     const result = await dbConnection.collection(collectionName)
-                                        .updateOne({ _id: ObjectId(id) }, { $set: doc });
+                                        .updateOne({ _id: new ObjectId(id) }, { $set: doc });
   
     if (result.matchedCount == 0) {
       res.status(404).json({});
@@ -83,7 +87,7 @@ app.route("/passwords/:id").delete(async (req, res) => {
   
     // TODO: Task - Write delete query only
     await dbConnection.collection(collectionName)
-                        .deleteOne({ _id: ObjectId(id) });
+                        .deleteOne({ _id: new ObjectId(id) });
   
     res.json({});
   });
