@@ -1,5 +1,5 @@
 export interface Password {
-    _id: string;
+    _id?: string;
     category: string;
     app: string;
     userName: string;

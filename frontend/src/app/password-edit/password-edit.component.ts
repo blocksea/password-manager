@@ -22,17 +22,18 @@ export class PasswordEditComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!; // Retrieves the 'id' parameter from the route
-
-    if (id !== '') {
+    
+    if (id !== null) {
       // Fetch the password details from the password service based on the ID
       this.passwordService.getPasswordById(id).subscribe((password) => {
         this.password = password;
         this.decryptedPassword = atob(password.encryptedPassword);
+        // debug line
+        console.log(this.password);
       });
     } else {
       // Set default values for a new password
       this.password = {
-        _id: '',
         category: '',
         app: '',
         userName: '',
@@ -49,8 +50,8 @@ export class PasswordEditComponent implements OnInit {
     }
 
     this.isSaving = true; // Set saving flag to true
-
-    if (this.password._id === '') {
+    
+    if (this.password._id === undefined) {
       // Add a new password
       this.password.encryptedPassword = btoa(this.decryptedPassword); // Encrypt the password
       this.passwordService.addPassword(this.password)
@@ -63,7 +64,7 @@ export class PasswordEditComponent implements OnInit {
       if (this.decryptedPassword) {
         this.password.encryptedPassword = btoa(this.decryptedPassword); // Encrypt the password if it exists
       }
-      this.passwordService.updatePassword(this.password._id, this.password)
+      this.passwordService.updatePassword(this.password._id!, this.password)
         .subscribe(() => {
           this.isSaving = false; // Set saving flag to false
           this.goBack(); // Navigate back
@@ -72,7 +73,7 @@ export class PasswordEditComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/password-manager']); // Navigate back to the password manager page
+    this.router.navigate(['/passwords']); // Navigate back to the password manager page
   }
 
   togglePasswordVisibility(): void {

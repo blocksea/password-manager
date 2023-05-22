@@ -10,28 +10,28 @@ export class PasswordService {
   getPassword(id: number) {
     throw new Error('Method not implemented.');
   }
-  private apiUrl = 'http://localhost:3000/passwords'; // Represents the API endpoint for passwords
+  private apiUrl = 'http://localhost:3600'; // Represents the API endpoint for passwords
 
   constructor(private http: HttpClient) { }
 
   getAllPasswords(): Observable<Password[]> {
-    return this.http.get<Password[]>('/passwords'); // Retrieves all passwords from the API
+    return this.http.get<Password[]>(`${this.apiUrl}/passwords`); // Retrieves all passwords from the API
   }
 
   getPasswordById(id: string): Observable<Password> {
-    return this.http.get<Password>(`/password-edit/${id}`); // Retrieves a password by ID from the API
+    return this.http.get<Password>(`${this.apiUrl}/password-edit/${id}`); // Retrieves a password by ID from the API
   }
 
   addPassword(password: Password): Observable<any> {
-    return this.http.post(`/passwords-edit`, password); // Adds a new password to the API
+    return this.http.post(`${this.apiUrl}/passwords-edit`, password); // Adds a new password to the API
   }
 
   updatePassword(id: string, password: Password): Observable<any> {
-    return this.http.put(`/passwords-edit/${id}`, password); // Updates a password by ID in the API
+    return this.http.put(`${this.apiUrl}/passwords-edit/${id}`, password); // Updates a password by ID in the API
   }
 
   deletePassword(id: string): Observable<any> {
-    return this.http.delete(`/passwords/${id}`); // Deletes a password by ID from the API
+    return this.http.delete(`${this.apiUrl}/passwords/${id}`); // Deletes a password by ID from the API
   }
 }
 // Comment explanations:

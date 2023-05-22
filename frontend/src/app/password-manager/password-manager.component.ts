@@ -28,7 +28,7 @@ export class PasswordManagerComponent implements OnInit {
       // Removes the password from the list
       this.passwords = this.passwords.filter(p => p !== password);
       // Calls the password service to delete the password
-      this.passwordService.deletePassword(password._id).subscribe();
+      this.passwordService.deletePassword(password._id!).subscribe();
     }
   }
 
