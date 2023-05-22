@@ -1,0 +1,39 @@
+{
+  "passwords": [
+    {
+      "id": 2,
+      "category": "school",
+      "app": "messenger",
+      "userName": "testuser@mytest.com",
+      "encryptedPassword": "TmV3UGFzc3dvcmRAMTIz"
+    },
+    {
+      "id": 3,
+      "category": "test",
+      "app": "TEST",
+      "userName": "test",
+      "encryptedPassword": "dGVzdDEyMzQ="
+    },
+    {
+      "id": 4,
+      "category": "test2",
+      "app": "test2",
+      "userName": "test2",
+      "encryptedPassword": "dGVzdDQ1Njc4"
+    },
+    {
+      "id": 5,
+      "category": "aa",
+      "app": "aaa",
+      "userName": "fdsfsfd",
+      "encryptedPassword": "ZmdmZGdkZg=="
+    },
+    {
+      "id": 6,
+      "category": "sfdsf",
+      "app": "sdffsdf",
+      "userName": "sfdsfds",
+      "encryptedPassword": "ZnNkZnM="
+    }
+  ]
+}
