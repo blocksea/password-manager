@@ -24,26 +24,8 @@ const collectionName = "passwords";
 // database connection string
 const dbUrl = 'mongodb+srv://admin:xOuG5xzD7E4ZZCdF@mycluster.upxjjyn.mongodb.net/?retryWrites=true&w=majority'
 
+
 let dbConnection;
-
-// function to create a database connection
-// const connectToDb = async(dbURL) => {
-//     try{
-//         // create client interface
-//         const client = new MongoClient(dbURL);
-
-//         // connect to the cluster
-//         const response = await client.connect();
-//         //console.log(response);
-
-//         // connect to the specific database
-//         db = client.db('Passwords');
-//         console.log("Database connection done.");
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-// connectToDb(dbURL);
 
 // Define server routes
 // List all passwords
@@ -52,10 +34,10 @@ app.route("/passwords").get(async (req, res) => {
     let passwords = [];
   
     passwords = await dbConnection.collection(collectionName)
-                            .find({})
+                            .find()
                             .toArray();
-  
-    res.json(people);
+
+    res.json(passwords);
 });
 
 // Get a password
@@ -112,14 +94,11 @@ app.listen(port, function () {
     console.log("Listening on " + port + ".");
   });
 
-
-MongoClient.connect(dbUrl, (err, client) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-
-    dbConnection = client.db(dbName);
-
-    console.log("Connected to database");
-});
+// database connection
+MongoClient.connect(dbUrl)
+  .then(client => {
+    dbConnection = client.db(dbName)
+  })
+  .catch(err => {
+    console.log(err)
+  })
