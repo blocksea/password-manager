@@ -21,9 +21,9 @@ export class PasswordEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const id = +this.route.snapshot.paramMap.get('id')!; // Retrieves the 'id' parameter from the route
+    const id = this.route.snapshot.paramMap.get('id')!; // Retrieves the 'id' parameter from the route
 
-    if (id !== 0) {
+    if (id !== '') {
       // Fetch the password details from the password service based on the ID
       this.passwordService.getPasswordById(id).subscribe((password) => {
         this.password = password;
@@ -32,7 +32,7 @@ export class PasswordEditComponent implements OnInit {
     } else {
       // Set default values for a new password
       this.password = {
-        id: 0,
+        _id: '',
         category: '',
         app: '',
         userName: '',
@@ -50,7 +50,7 @@ export class PasswordEditComponent implements OnInit {
 
     this.isSaving = true; // Set saving flag to true
 
-    if (this.password.id === 0) {
+    if (this.password._id === '') {
       // Add a new password
       this.password.encryptedPassword = btoa(this.decryptedPassword); // Encrypt the password
       this.passwordService.addPassword(this.password)
@@ -63,7 +63,7 @@ export class PasswordEditComponent implements OnInit {
       if (this.decryptedPassword) {
         this.password.encryptedPassword = btoa(this.decryptedPassword); // Encrypt the password if it exists
       }
-      this.passwordService.updatePassword(this.password.id, this.password)
+      this.passwordService.updatePassword(this.password._id, this.password)
         .subscribe(() => {
           this.isSaving = false; // Set saving flag to false
           this.goBack(); // Navigate back

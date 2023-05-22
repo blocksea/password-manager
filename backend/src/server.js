@@ -22,32 +22,28 @@ const dbName = "mean-passwordManager";
 const collectionName = "passwords";
 
 // database connection string
-const dbURL = 'mongodb+srv://admin:xOuG5xzD7E4ZZCdF@mycluster.upxjjyn.mongodb.net/?retryWrites=true&w=majority'
+const dbUrl = 'mongodb+srv://admin:xOuG5xzD7E4ZZCdF@mycluster.upxjjyn.mongodb.net/?retryWrites=true&w=majority'
 
 let dbConnection;
 
 // function to create a database connection
-export const connectToDb = async(dbURL) => {
-    try{
-        // create client interface
-        const client = new MongoClient(dbURL);
+// const connectToDb = async(dbURL) => {
+//     try{
+//         // create client interface
+//         const client = new MongoClient(dbURL);
 
-        // connect to the cluster
-        const response = await client.connect();
-        console.log(response);
+//         // connect to the cluster
+//         const response = await client.connect();
+//         //console.log(response);
 
-        // connect to the specific database
-        dbConnection = client.db('Passwords');
-        console.log("Database connection done.");
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-// Start server and listen for requests
-app.listen(port, function () {
-    console.log("Listening on " + port + ".");
-  });
+//         // connect to the specific database
+//         db = client.db('Passwords');
+//         console.log("Database connection done.");
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+// connectToDb(dbURL);
 
 // Define server routes
 // List all passwords
@@ -55,7 +51,7 @@ app.listen(port, function () {
 app.route("/passwords").get(async (req, res) => {
     let passwords = [];
   
-    passwords = await db.collection(collectionName)
+    passwords = await dbConnection.collection(collectionName)
                             .find({})
                             .toArray();
   
@@ -65,7 +61,8 @@ app.route("/passwords").get(async (req, res) => {
 // Get a password
 app.route("/password-edit/:id").get(async (req, res) => {
     const id = req.params.id;
-    const result = await db.collection(collectionName).findOne(ObjectId(id));
+    const result = await dbConnection.collection(collectionName)
+                                        .findOne(ObjectId(id));
   
     if (!result) {
       res.status(404).json({error: "Could not find"});
@@ -78,7 +75,8 @@ app.route("/password-edit/:id").get(async (req, res) => {
 // Create a new person
 app.route("/passwords-edit").post(async (req, res) => {
     const doc = req.body;
-    const result = await db.collection(collectionName).insertOne(doc);
+    const result = await dbConnection.collection(collectionName)
+                                        .insertOne(doc);
     res.status(201).json({ _id: result.insertedId });
   });
 
@@ -86,9 +84,8 @@ app.route("/passwords-edit").post(async (req, res) => {
 app.route("/passwords-edit/:id").put(async (req, res) => {
     const id = req.params.id;
     const doc = req.body;
-    const result = await db
-      .collection(collectionName)
-      .updateOne({ _id: ObjectId(id) }, { $set: doc });
+    const result = await dbConnection.collection(collectionName)
+                                        .updateOne({ _id: ObjectId(id) }, { $set: doc });
   
     if (result.matchedCount == 0) {
       res.status(404).json({});
@@ -103,7 +100,26 @@ app.route("/passwords/:id").delete(async (req, res) => {
     const id = req.params.id;
   
     // TODO: Task - Write delete query only
-    await db.collection(collectionName).deleteOne({ _id: ObjectId(id) });
+    await dbConnection.collection(collectionName)
+                        .deleteOne({ _id: ObjectId(id) });
   
     res.json({});
   });
+
+  
+// Start server and listen for requests
+app.listen(port, function () {
+    console.log("Listening on " + port + ".");
+  });
+
+
+MongoClient.connect(dbUrl, (err, client) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+
+    dbConnection = client.db(dbName);
+
+    console.log("Connected to database");
+});

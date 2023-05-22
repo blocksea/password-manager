@@ -28,12 +28,12 @@ export class PasswordManagerComponent implements OnInit {
       // Removes the password from the list
       this.passwords = this.passwords.filter(p => p !== password);
       // Calls the password service to delete the password
-      this.passwordService.deletePassword(password.id).subscribe();
+      this.passwordService.deletePassword(password._id).subscribe();
     }
   }
 
   editPassword(password: Password): void {
-    const link = ['/edit', password.id]; // Constructs the router link for editing the password
+    const link = ['/edit', password._id]; // Constructs the router link for editing the password
     this.router.navigate(link); // Navigates to the password edit page
   }
 }

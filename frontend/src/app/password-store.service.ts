@@ -15,26 +15,23 @@ export class PasswordService {
   constructor(private http: HttpClient) { }
 
   getAllPasswords(): Observable<Password[]> {
-    return this.http.get<Password[]>(this.apiUrl); // Retrieves all passwords from the API
+    return this.http.get<Password[]>('/passwords'); // Retrieves all passwords from the API
   }
 
-  getPasswordById(id: number): Observable<Password> {
-    const url = `${this.apiUrl}/${id}`; // Constructs the URL for retrieving a password by ID
-    return this.http.get<Password>(url); // Retrieves a password by ID from the API
+  getPasswordById(id: string): Observable<Password> {
+    return this.http.get<Password>(`/password-edit/${id}`); // Retrieves a password by ID from the API
   }
 
   addPassword(password: Password): Observable<any> {
-    return this.http.post(this.apiUrl, password); // Adds a new password to the API
+    return this.http.post(`/passwords-edit`, password); // Adds a new password to the API
   }
 
-  updatePassword(id: number, password: Password): Observable<any> {
-    const url = `${this.apiUrl}/${id}`; // Constructs the URL for updating a password by ID
-    return this.http.put(url, password); // Updates a password by ID in the API
+  updatePassword(id: string, password: Password): Observable<any> {
+    return this.http.put(`/passwords-edit/${id}`, password); // Updates a password by ID in the API
   }
 
-  deletePassword(id: number): Observable<any> {
-    const url = `${this.apiUrl}/${id}`; // Constructs the URL for deleting a password by ID
-    return this.http.delete(url); // Deletes a password by ID from the API
+  deletePassword(id: string): Observable<any> {
+    return this.http.delete(`/passwords/${id}`); // Deletes a password by ID from the API
   }
 }
 // Comment explanations:

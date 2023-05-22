@@ -1,27 +1,74 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { PasswordService } from './password-store.service';
+import { Password } from './password.interface';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'password-manager'; // Represents the title of the application
   id!: 0; // Represents the ID parameter, but it's not properly initialized and may cause issues
+  password: Password[] | null = null;
+  editingPassword: Password | null = null;
 
-  constructor(private location: Location, private route: ActivatedRoute) { }
+  constructor(private passwordStoreService: PasswordService, private location: Location, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    const id = +this.route.snapshot.paramMap.get('id')!; // Retrieves the 'id' parameter from the current route
+    this.updatePasswords();
   }
 
-  refreshPage() {
-    if (this.id !== 0) {
-      this.location.go(this.location.path()); // Navigates to the current path using the Location service
-    }
-    window.location.reload(); // Reloads the page
+  updatePasswords() {
+    this.passwordStoreService.getAllPasswords().subscribe((password: Password[]) => {
+      this.password = password;
+    });
+  }
+
+  addPassword() {
+    const newPassword: Password = {
+      _id: '',
+      category: '',
+      app: '',
+      userName: '',
+      encryptedPassword: '',
+    };
+
+    this.passwordStoreService.addPassword(newPassword).subscribe((data: any) => {
+      this.updatePasswords();
+      this.editingPassword = {
+        ...newPassword,
+        _id: data._id,
+      };
+    });
+  }
+
+  editPassword(password: Password) {
+    this.editingPassword = password;
+  }
+
+  doneEditing() {
+    if (!this.editingPassword) return;
+
+    this.updatePassword(this.editingPassword);
+
+    this.editingPassword = null;
+  }  
+
+  updatePassword(password: Password) {
+    this.passwordStoreService
+      .updatePassword(password._id!, { ...password, _id: '' })
+      .subscribe(() => {
+        this.updatePasswords();
+      });
+  }
+
+  deletePassword(password: Password) {
+    this.passwordStoreService.deletePassword(password._id!).subscribe(() => {
+      this.updatePasswords();
+    });
   }
 }
 // Comment explanations:
