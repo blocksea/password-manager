@@ -5,7 +5,7 @@
   "main": "index.js",
   "source": "src/server.js",
   "scripts": {
-    "build": "parcel build"
+    "build": "npx parcel build src/server.js"
   },
   "keywords": [],
   "author": "",
