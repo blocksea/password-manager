@@ -33,7 +33,8 @@ let dbConnection;
 app.route("/passwords").get(async (req, res) => {
     let passwords = [];
   
-    passwords = await dbConnection.collection(collectionName)
+    passwords = await dbConnection
+                            .collection(collectionName)
                             .find()
                             .toArray();
 
