@@ -15,14 +15,16 @@ export class AppComponent implements OnInit {
   password: Password[] | null = null;
   editingPassword: Password | null = null;
 
-  constructor(private passwordStoreService: PasswordService, private location: Location, private route: ActivatedRoute) { }
+  constructor(private passwordService: 
+    PasswordService, private location: Location, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.updatePasswords();
   }
 
   updatePasswords() {
-    this.passwordStoreService.getAllPasswords().subscribe((password: Password[]) => {
+    this.passwordService.getAllPasswords()
+    .subscribe((password: Password[]) => {
       this.password = password;
     });
   }
@@ -36,7 +38,7 @@ export class AppComponent implements OnInit {
       encryptedPassword: '',
     };
 
-    this.passwordStoreService.addPassword(newPassword).subscribe((data: any) => {
+    this.passwordService.addPassword(newPassword).subscribe((data: any) => {
       this.updatePasswords();
       this.editingPassword = {
         ...newPassword,
@@ -58,7 +60,7 @@ export class AppComponent implements OnInit {
   }  
 
   updatePassword(password: Password) {
-    this.passwordStoreService
+    this.passwordService
       .updatePassword(password._id!, { ...password, _id: '' })
       .subscribe(() => {
         this.updatePasswords();
@@ -66,7 +68,7 @@ export class AppComponent implements OnInit {
   }
 
   deletePassword(password: Password) {
-    this.passwordStoreService.deletePassword(password._id!).subscribe(() => {
+    this.passwordService.deletePassword(password._id!).subscribe(() => {
       this.updatePasswords();
     });
   }
