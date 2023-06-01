@@ -7,8 +7,8 @@ import { PasswordEditComponent } from './password-edit/password-edit.component';
 
 
 const routes: Routes = [
-    { path: '', redirectTo: '/password-manager', pathMatch: 'full' },
-    { path: 'password-manager', component: PasswordManagerComponent },
+    { path: '', redirectTo: '/passwords', pathMatch: 'full' },
+    //{ path: 'password-manager', component: PasswordManagerComponent },
     { path: 'passwords', component: PasswordManagerComponent },
     { path: 'password-edit', component: PasswordEditComponent },
     { path: 'password-edit/:id', component: PasswordEditComponent },

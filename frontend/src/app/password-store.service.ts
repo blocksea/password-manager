@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Password } from './password.interface';
+import { environment } from './../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class PasswordService {
   getPassword(id: number) {
     throw new Error('Method not implemented.');
   }
-  private apiUrl = 'https://deployedpasswordmanager.onrender.com'; // Represents the API endpoint for passwords
+  private apiUrl = environment.apiUrl; // Represents the API endpoint for passwords
 
   constructor(private http: HttpClient) { }
 
