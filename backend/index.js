@@ -10,16 +10,12 @@ var $acq34$mongodb = require("mongodb");
 var $bd295355364a39aa$require$MongoClient = $acq34$mongodb.MongoClient;
 
 var $bd295355364a39aa$require$ObjectId = $acq34$mongodb.ObjectId;
-// import Password interface
-// import { Password } from "./password";
 // Create Express app
 const $bd295355364a39aa$var$app = $acq34$express();
 // Add CORS to all routes and methods
 $bd295355364a39aa$var$app.use($acq34$cors());
 // Enable parsing of JSON bodies
 $bd295355364a39aa$var$app.use($acq34$express.json());
-// Initialize parameters
-// const port = eval("process.env.PORT") || 3600;
 const $bd295355364a39aa$var$port = 3600;
 const $bd295355364a39aa$var$dbName = "mean-passwordManager";
 const $bd295355364a39aa$var$collectionName = "passwords";

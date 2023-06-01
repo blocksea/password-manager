@@ -5,6 +5,7 @@
   "main": "index.js",
   "source": "src/server.js",
   "scripts": {
+    "start": "nodemon index.js",
     "build": "npx parcel build src/server.js"
   },
   "keywords": [],

@@ -3,8 +3,7 @@ const proxy = require("express-http-proxy");
 const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectId;
-// import Password interface
-// import { Password } from "./password";
+
 
 // Create Express app
 const app = express();
@@ -15,8 +14,7 @@ app.use(cors());
 // Enable parsing of JSON bodies
 app.use(express.json());
 
-// Initialize parameters
-// const port = eval("process.env.PORT") || 3600;
+
 const port = 3600;
 const dbName = process.env.DB_NAME;
 const collectionName = process.env.DB_COLLECTION;
